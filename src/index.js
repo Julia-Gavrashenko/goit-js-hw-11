@@ -8,13 +8,20 @@ const loadMoreBtn = document.querySelector('.load-more');
 let page = 1;
 let searchQuery = '';
 
-searchForm.addEventListener('submit', onSearch);
-loadMoreBtn.addEventListener('click', onClick);
+searchForm.addEventListener('submit', onSubmit);
+loadMoreBtn.addEventListener('click', onLoadMoreBtn);
 
-function onSearch(e) {
+function onSubmit(e) {
   e.preventDefault();
- searchQuery = e.currentTarget.elements.searchQuery.value;
+  searchQuery = e.currentTarget.elements.searchQuery.value.trim();
   console.log(searchQuery);
+  page = 1;
+  gallery.innerHTML = '';
+
+  if (searchQuery === '') {
+    Notiflix.Notify.info('Please, enter something to search!');
+    return;
+  }
 
   fetchPixabayApi(searchQuery)
     .then(data => {
@@ -25,19 +32,20 @@ function onSearch(e) {
     .catch(error => console.log(error));
 }
 
-function onClick() {
+function onLoadMoreBtn() {
   page += 1;
   fetchPixabayApi(searchQuery, page).then(data => {
     createCardMarkup(data.hits);
-    console.log(data)
-    // if (data.hits.length === data.totalHits) {
-    //   loadMoreBtn.hidden = true;
-    //   Notiflix.Notify.info('We\'re sorry, but you\'ve reached the end of search results.');
-    // }
+    console.log(data);
+
+    if (page * data.hits.length === data.totalHits) {
+      loadMoreBtn.hidden = true;
+      Notiflix.Notify.info(
+        "We're sorry, but you've reached the end of search results."
+      );
+    }
   });
 }
-
-
 
 async function fetchPixabayApi(query, page = 1) {
   const BASE_URL = 'https://pixabay.com/api/';
@@ -52,7 +60,7 @@ async function fetchPixabayApi(query, page = 1) {
   const response = await axios.get(
     `${BASE_URL}?key=${KEY}&page=${page}&per_page=100&q=${query}&${searchParams}`
   );
-  console.log(response)
+  console.log(response);
   return response.data;
 }
 
