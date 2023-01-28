@@ -3,6 +3,7 @@ import Notiflix from 'notiflix';
 
 const gallery = document.querySelector('.gallery');
 const searchForm = document.querySelector('.search-form');
+const submitBtn = document.querySelector('.btn')
 const loadMoreBtn = document.querySelector('.load-more');
 
 let page = 1;
@@ -17,12 +18,15 @@ function onSubmit(e) {
   console.log(searchQuery);
   page = 1;
   gallery.innerHTML = '';
+ 
+  
   
 
   if (searchQuery === '') {
     Notiflix.Notify.info('Please, enter something to search!');
     return;
   }
+
 
   fetchPixabayApi(searchQuery)
     .then(data => {
@@ -100,3 +104,6 @@ function createCardMarkup(arr) {
 
   gallery.insertAdjacentHTML('beforeend', markup);
 }
+
+
+//  loadMoreBtn.textContent = "wait fot result"
