@@ -1,6 +1,12 @@
 import axios from 'axios';
 import Notiflix from 'notiflix';
 
+
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
+
+
+
 import { fetchPixabayApi } from './fetch';
 
 const gallery = document.querySelector('.gallery');
@@ -8,7 +14,7 @@ const searchForm = document.querySelector('.search-form');
 const submitBtn = document.querySelector('.btn');
 const loadMoreBtn = document.querySelector('.load-more');
 
-// let lightBox = new SimpleLightbox('.gallery a')
+let lightBox = new SimpleLightbox('.gallery div a')
 
 let page = 1;
 let searchQuery = '';
@@ -39,6 +45,7 @@ function onSubmit(e) {
     .then(data => {
       createCardMarkup(data.hits);
       foundImg();
+      lightBox.refresh()
       Notiflix.Notify.success('Hooray! We found ${data.totalHits} images.');
     })
     .catch(error => console.log(error));
@@ -94,21 +101,21 @@ function createCardMarkup(arr) {
       <div class="photo-card">
 
 <a class="gallery__item" href='${largeImageURL}'>
-  <img src="${webformatURL}" alt="${tags}" loading="lazy" width = "300px" height = "200px"/>
+  <img class="img" src="${webformatURL}" alt="${tags}" loading="lazy" "/>
 </a>
   
   <div class="info">
     <p class="info-item">
-      <b>Likes ${likes}</b>
+      <b>Likes <span class="desk"> ${likes} </span> </b>
     </p>
     <p class="info-item">
-      <b>Views ${views}</b>
+      <b>Views <span class="desk">${views}</span></b>
     </p>
     <p class="info-item">
-      <b>Comments ${comments}</b>
+      <b>Comments <span class="desk">${comments}</span></b>
     </p>
     <p class="info-item">
-      <b>Downloads ${downloads}</b>
+      <b>Downloads <span class="desk">${downloads}</span></b>
     </p>
   </div>
 </div>`

@@ -1,3 +1,8 @@
+:root {
+  --timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  --animation-duration: 200ms;
+}
+
 body {
   background-color: #ffffff;
 }
@@ -43,7 +48,6 @@ body {
 }
 
 .load-more {
- 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -62,15 +66,12 @@ body {
   margin-bottom: 30px;
   margin-right: auto;
   margin-left: auto;
-cursor: pointer;
-  
+  cursor: pointer;
 }
 
-.is-hidden{
+.is-hidden {
   display: none;
 }
-
-
 
 .gallery {
   display: flex;
@@ -81,56 +82,84 @@ cursor: pointer;
   margin-bottom: 30px;
 }
 
-// .gallery__item {
-//   margin: o;
-//   position: relative;
-//   box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
-//     0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
-// }
+.gallery__item {
+  margin: o;
+  position: relative;
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+}
 
 .photo-card {
-  box-shadow: 0px 2px 4px rgb(0 0 0 / 30%);
-  border-radius: 4px;
-  // border: 1px solid rgb(160, 157, 157);
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: white;
+  box-shadow: 0px 2px 4px rgb(0 0 0 / 30%);
+  border-radius: 2px;
 }
+
+.img {
+  display: block;
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
+  transition: transform var(--animation-duration) var(--timing-function);
+}
+
+.img:hover {
+  transform: scale(1.1);
+  border-radius: 4px;
+}
+
+
 
 .info {
   display: flex;
   align-items: center;
   justify-content: center;
+text-align: center;
   gap: 20px;
   width: 200px;
+ 
 }
 
 .info-item {
   display: flex;
   flex-direction: column;
+  align-items: center;
   font-size: 13px;
-  color: #3f3939;
+  color: #252424;
+  
+  
 }
 
+.desk{
+font-size: 12px;
+  color: #252424;
+  padding-bottom: 40px;
+  
+  
+}
 
-
-
-.loader{
+.loader {
   pointer-events: none;
   width: 30px;
   height: 30px;
   border-radius: 50%;
   border: 3px solid transparent;
   border-top-color: #ffffff;
-animation: an1 1s ease infinite;
+  animation: an1 1s ease infinite;
 }
 
-@keyframes an1{
+@keyframes an1 {
   0% {
     transform: rotate(0turn);
   }
-  100%{
+  100% {
     transform: rotate(1turn);
   }
 }
+
+// html {
+//   scroll-behavior: smooth;
+// }
