@@ -17,6 +17,7 @@ function onSubmit(e) {
   console.log(searchQuery);
   page = 1;
   gallery.innerHTML = '';
+  
 
   if (searchQuery === '') {
     Notiflix.Notify.info('Please, enter something to search!');
@@ -28,6 +29,7 @@ function onSubmit(e) {
       createCardMarkup(data.hits);
       console.log(data);
       loadMoreBtn.hidden = false;
+      loadMoreBtn.disabled = false; 
     })
     .catch(error => console.log(error));
 }
