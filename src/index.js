@@ -1,10 +1,7 @@
 import axios from 'axios';
 import Notiflix from 'notiflix';
 
-
-import { fetchPixabayApi } from './fetch'
-
-
+import { fetchPixabayApi } from './fetch';
 
 const gallery = document.querySelector('.gallery');
 const searchForm = document.querySelector('.search-form');
@@ -19,7 +16,6 @@ let searchQuery = '';
 searchForm.addEventListener('submit', onSubmit);
 loadMoreBtn.addEventListener('click', onLoadMoreBtn);
 
-
 function onSubmit(e) {
   e.preventDefault();
   searchQuery = e.currentTarget.elements.searchQuery.value
@@ -29,7 +25,7 @@ function onSubmit(e) {
 
   page = 1;
   gallery.innerHTML = '';
- 
+
   loadImg();
   loaderMarkup();
 
@@ -43,23 +39,21 @@ function onSubmit(e) {
     .then(data => {
       createCardMarkup(data.hits);
       foundImg();
-      Notiflix.Notify.success('Hooray! We found ${data.totalHits} images.');  
+      Notiflix.Notify.success('Hooray! We found ${data.totalHits} images.');
     })
-    .catch(error => console.log(error) );
+    .catch(error => console.log(error));
 }
-
 
 
 
 function onLoadMoreBtn() {
   page += 1;
- 
   loaderMarkup();
-  
+
   fetchPixabayApi(searchQuery, page)
     .then(data => {
-      
       createCardMarkup(data.hits);
+      foundImg();
       console.log(data);
 
       if (page * data.hits.length === data.totalHits) {
@@ -73,20 +67,16 @@ function onLoadMoreBtn() {
 }
 
 
-
 function loadImg() {
   loadMoreBtn.classList.remove('is-hidden');
   loadMoreBtn.disabled = true;
 }
 
 
-
 function foundImg() {
   loadMoreBtn.textContent = 'Load more';
-  loadMoreBtn.classList.remove('is-hidden');
   loadMoreBtn.disabled = false;
 }
-
 
 
 function createCardMarkup(arr) {
@@ -130,11 +120,9 @@ function createCardMarkup(arr) {
 
 
 function loaderMarkup() {
-  return loadMoreBtn.innerHTML = '<div class="loader"></div>';
+  loadMoreBtn.disabled = true;
+  return (loadMoreBtn.innerHTML = '<div class="loader"></div>');
 }
-
-
-
 
 // async function fetchPixabayApi(query, page = 1) {
 //   const BASE_URL = 'https://pixabay.com/api/';
