@@ -1,11 +1,8 @@
 import axios from 'axios';
 import Notiflix from 'notiflix';
 
-
-import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
-
-
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 import { fetchPixabayApi } from './fetch';
 
@@ -14,7 +11,7 @@ const searchForm = document.querySelector('.search-form');
 const submitBtn = document.querySelector('.btn');
 const loadMoreBtn = document.querySelector('.load-more');
 
-let lightBox = new SimpleLightbox('.gallery div a')
+let lightBox = new SimpleLightbox('.gallery div a');
 
 let page = 1;
 let searchQuery = '';
@@ -24,10 +21,10 @@ loadMoreBtn.addEventListener('click', onLoadMoreBtn);
 
 function onSubmit(e) {
   e.preventDefault();
+
   searchQuery = e.currentTarget.elements.searchQuery.value
     .trim()
     .replaceAll(/\s+/g, '+');
-  console.log(searchQuery);
 
   page = 1;
   gallery.innerHTML = '';
@@ -43,15 +40,22 @@ function onSubmit(e) {
 
   fetchPixabayApi(searchQuery)
     .then(data => {
-      createCardMarkup(data.hits);
-      foundImg();
-      lightBox.refresh()
-      Notiflix.Notify.success('Hooray! We found ${data.totalHits} images.');
+      if (data.hits.length === 0) {
+        loadMoreBtn.classList.add('is-hidden');
+        Notiflix.Notify.info(
+          'Sorry, there are no images matching your search query. Please try again.'
+        );
+      } else {
+        Notiflix.Notify.success('Hooray! We found ${data.totalHits} images.');
+
+        createCardMarkup(data.hits);
+
+        foundImg();
+        lightBox.refresh();
+      }
     })
     .catch(error => console.log(error));
 }
-
-
 
 function onLoadMoreBtn() {
   page += 1;
@@ -63,7 +67,7 @@ function onLoadMoreBtn() {
       foundImg();
       console.log(data);
 
-      if (page * data.hits.length === data.totalHits) {
+      if (gallery.children.length === data.totalHits) {
         loadMoreBtn.classList.add('is-hidden');
         Notiflix.Notify.info(
           "We're sorry, but you've reached the end of search results."
@@ -73,18 +77,15 @@ function onLoadMoreBtn() {
     .catch(error => console.log(error));
 }
 
-
 function loadImg() {
   loadMoreBtn.classList.remove('is-hidden');
   loadMoreBtn.disabled = true;
 }
 
-
 function foundImg() {
   loadMoreBtn.textContent = 'Load more';
   loadMoreBtn.disabled = false;
 }
-
 
 function createCardMarkup(arr) {
   const markup = arr
@@ -125,7 +126,6 @@ function createCardMarkup(arr) {
   gallery.insertAdjacentHTML('beforeend', markup);
 }
 
-
 function loaderMarkup() {
   loadMoreBtn.disabled = true;
   return (loadMoreBtn.innerHTML = '<div class="loader"></div>');
@@ -147,3 +147,5 @@ function loaderMarkup() {
 //   console.log(response);
 //   return response.data;
 // }
+
+// page * data.hits.length === data.totalHits
