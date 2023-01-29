@@ -46,7 +46,7 @@ function onSubmit(e) {
           'Sorry, there are no images matching your search query. Please try again.'
         );
       } else {
-        Notiflix.Notify.success('Hooray! We found ${data.totalHits} images.');
+        Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
 
         createCardMarkup(data.hits);
 
@@ -74,7 +74,9 @@ function onLoadMoreBtn() {
         );
       }
     })
-    .catch(error => console.log(error));
+    .catch(error =>
+      console.log("We're sorry, but you've reached the end of search results.")
+    );
 }
 
 function loadImg() {

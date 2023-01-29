@@ -29,6 +29,12 @@ body {
   box-shadow: 0px 2px 4px rgb(0 0 0 / 30%);
   margin-right: 20px;
   font-size: 20px;
+  line-height: 50px;
+  
+
+  &:focus{
+outline: 1px solid #6e6a6a;
+  }
 }
 
 .btn {
@@ -41,10 +47,18 @@ body {
   border-radius: 4px;
   color: #ffffff;
   box-shadow: 0px 2px 4px rgb(0 0 0 / 30%);
-  background-color: #508fec;
+  background-color: #6ea3f1;
   padding-top: 10px;
   padding-bottom: 10px;
   cursor: pointer;
+
+  &:hover{
+    background-color: darken(#6ea3f1, 8);
+  }
+
+    &:active {
+      background-color: darken(#6ea3f1, 15);
+    }
 }
 
 .load-more {
@@ -67,6 +81,15 @@ body {
   margin-right: auto;
   margin-left: auto;
   cursor: pointer;
+
+  
+  &:hover{
+    background-color: darken(#6ea3f1, 10);
+  }
+
+    &:active {
+      background-color: darken(#6ea3f1, 20);
+    }
 }
 
 .is-hidden {
